@@ -1,8 +1,12 @@
 package cz.jobs.ppro.service;
 
 import cz.jobs.ppro.model.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
     void registerUser(User user);
-    User findByUsername(String username);
+
+    UserDetails loadUserByUsername(String username);
 }

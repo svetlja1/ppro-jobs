@@ -1,8 +1,16 @@
 package cz.jobs.ppro.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -15,7 +23,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    // Další atributy a metody...
 
-    // Getters a Setters...
+    public User(String username, String hashedPassword) {
+        this.username = username;
+        this.password = hashedPassword;
+    }
 }

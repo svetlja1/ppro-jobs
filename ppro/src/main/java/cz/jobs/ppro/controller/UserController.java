@@ -4,19 +4,34 @@ import cz.jobs.ppro.model.User;
 import cz.jobs.ppro.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
+    @GetMapping("/dashboard")
+    public String welcome() {
+        return "dashboard";
+    }
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
@@ -36,5 +51,31 @@ public class UserController {
     @GetMapping("/login")
     public String showLoginForm() {
         return "login";
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> performLogin(@ModelAttribute("user") @Valid User user) {
+        try {
+            // Vytvoření autentizačního objektu s uživatelským jménem a heslem
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    user.getUsername(),
+                    user.getPassword()
+            );
+
+            // Autentizace
+            Authentication authenticated = authenticationManager.authenticate(authentication);
+
+            // Nastavení autentizovaného uživatele do SecurityContext
+            SecurityContextHolder.getContext().setAuthentication(authenticated);
+
+            // Nyní můžete volat metodu loadUserByUsername manuálně, ale Spring Security to udělá za vás
+            UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
+
+            // userDetails obsahuje informace o autentizovaném uživateli
+
+            return ResponseEntity.ok("Přihlášení úspěšné");
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Přihlášení selhalo");
+        }
     }
 }
