@@ -27,46 +27,46 @@
         <form th:object="${job}" th:action="@{/add_job}" method="post">
           <div class="form-group">
             <label for="jobName">Job name</label>
-            <input type="text" class="form-control" id="jobName" placeholder="Enter job name">
+            <input type="text" class="form-control" id="jobName" name="jobName" placeholder="Enter job name">
           </div>
           <div class="form-group">
             <label for="jobCategory">Job Category:</label>
             <select id="jobCategory" name="jobCategory" class="form-select w-100 p-1" required>
               <option selected>Select Job Category</option>
-                <option value="software_developer">Software Developer</option>
-                <option value="data_analyst">Data Analyst</option>
-                <option value="graphic_designer">Graphic Designer</option>
-                <option value="marketing_specialist">Marketing Specialist</option>
-                <option value="customer_support">Customer Support</option>
-                <option value="financial_analyst">Financial Analyst</option>
-                <option value="project_manager">Project Manager</option>
-                <option value="human_resources">Human Resources</option>
-                <option value="sales_executive">Sales Executive</option>
-                <option value="network_engineer">Network Engineer</option>
-                <option value="healthcare_professional">Healthcare Professional</option>
-                <option value="teacher">Teacher</option>
-                <option value="mechanical_engineer">Mechanical Engineer</option>
-                <option value="electrician">Electrician</option>
-                <option value="chef">Chef</option>
-                <option value="writer">Writer</option>
-                <option value="photographer">Photographer</option>
-                <option value="event_planner">Event Planner</option>
-                <option value="social_media_manager">Social Media Manager</option>
-                <option value="construction_worker">Construction Worker</option>
-                <option value="research_scientist">Research Scientist</option>
-                <option value="lawyer">Lawyer</option>
-                <option value="fitness_instructor">Fitness Instructor</option>
-                <option value="logistics_coordinator">Logistics Coordinator</option>
-                <option value="architect">Architect</option>
-                <option value="translator">Translator</option>
-                <option value="video_editor">Video Editor</option>
-                <option value="event_coordinator">Event Coordinator</option>
-                <option value="pharmacist">Pharmacist</option>
+              <option value="Software Developer">Software Developer</option>
+              <option value="Data Analyst">Data Analyst</option>
+              <option value="Graphic Designer">Graphic Designer</option>
+              <option value="Marketing Specialist">Marketing Specialist</option>
+              <option value="Customer Support">Customer Support</option>
+              <option value="Financial Analyst">Financial Analyst</option>
+              <option value="Project Manager">Project Manager</option>
+              <option value="Human Resources">Human Resources</option>
+              <option value="Sales Executive">Sales Executive</option>
+              <option value="Network Engineer">Network Engineer</option>
+              <option value="Healthcare Professional">Healthcare Professional</option>
+              <option value="Teacher">Teacher</option>
+              <option value="Mechanical Engineer">Mechanical Engineer</option>
+              <option value="Electrician">Electrician</option>
+              <option value="Chef">Chef</option>
+              <option value="Writer">Writer</option>
+              <option value="Photographer">Photographer</option>
+              <option value="Event Planner">Event Planner</option>
+              <option value="Social Media Manager">Social Media Manager</option>
+              <option value="Construction Worker">Construction Worker</option>
+              <option value="Research Scientist">Research Scientist</option>
+              <option value="Lawyer">Lawyer</option>
+              <option value="Fitness Instructor">Fitness Instructor</option>
+              <option value="Logistics Coordinator">Logistics Coordinator</option>
+              <option value="Architect">Architect</option>
+              <option value="Translator">Translator</option>
+              <option value="Video Editor">Video Editor</option>
+              <option value="Event Coordinator">Event Coordinator</option>
+              <option value="Pharmacist">Pharmacist</option>
             </select>
           </div>
           <div class="form-group">
             <label for="jobDescription">Job description:</label>
-            <textarea type="text" class="form-control" id="jobDescription" rows="5" placeholder="Enter job description"></textarea>
+            <textarea type="text" class="form-control" id="jobDescription" name="jobDescription" rows="5" placeholder="Enter job description"></textarea>
           </div>
           <div class="form-group">
             <label for="jobSalary">Job salary per month</label>
@@ -74,7 +74,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">$</span>
               </div>
-              <input type="text" class="form-control" id="jobSalary" placeholder="Enter job salary">
+              <input type="text" class="form-control" id="jobSalary" name="jobSalary" placeholder="Enter job salary">
             </div>
           </div>
           <div class="form-group">
@@ -83,6 +83,88 @@
               <option selected>Select Job Company</option>
               <option value="software_developer">My first comp</option>
               <option value="software_developer">My second comp</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="jobArea">Job Category:</label>
+            <select id="jobArea" name="jobArea" class="form-select w-100 p-1" required>
+              <option selected>Select Job Area</option>
+              <option value="Okres Benesov">Okres Benesov</option>
+              <option value="Okres Beroun">Okres Beroun</option>
+              <option value="Okres Blansko">Okres Blansko</option>
+              <option value="Okres Brno-mesto">Okres Brno-mesto</option>
+              <option value="Okres Brno-venkov">Okres Brno-venkov</option>
+              <option value="Okres Bruntal">Okres Bruntal</option>
+              <option value="Okres Breclav">Okres Breclav</option>
+              <option value="Okres Ceska Lipa">Okres Ceska Lipa</option>
+              <option value="Okres Ceske Budejovice">Okres Ceske Budejovice</option>
+              <option value="Okres Cesky Krumlov">Okres Cesky Krumlov</option>
+              <option value="Okres Decin">Okres Decin</option>
+              <option value="Okres Domazlice">Okres Domazlice</option>
+              <option value="Okres Frydek-Mistek">Okres Frydek-Mistek</option>
+              <option value="Okres Havlickuv Brod">Okres Havlickuv Brod</option>
+              <option value="Okres Hodonin">Okres Hodonin</option>
+              <option value="Okres Hradec Kralove">Okres Hradec Kralove</option>
+              <option value="Okres Cheb">Okres Cheb</option>
+              <option value="Okres Chomutov">Okres Chomutov</option>
+              <option value="Okres Chrudim">Okres Chrudim</option>
+              <option value="Okres Jablonec nad Nisou">Okres Jablonec nad Nisou</option>
+              <option value="Okres Jesenik">Okres Jesenik</option>
+              <option value="Okres Jicin">Okres Jicin</option>
+              <option value="Okres Jihlava">Okres Jihlava</option>
+              <option value="Okres Jindrichuv Hradec">Okres Jindrichuv Hradec</option>
+              <option value="Okres Karlovy Vary">Okres Karlovy Vary</option>
+              <option value="Okres Karvina">Okres Karvina</option>
+              <option value="Okres Kladno">Okres Kladno</option>
+              <option value="Okres Klatovy">Okres Klatovy</option>
+              <option value="Okres Kolin">Okres Kolin</option>
+              <option value="Okres Kromeriz">Okres Kromeriz</option>
+              <option value="Okres Kutna Hora">Okres Kutna Hora</option>
+              <option value="Okres Liberec">Okres Liberec</option>
+              <option value="Okres Litomerice">Okres Litomerice</option>
+              <option value="Okres Louny">Okres Louny</option>
+              <option value="Okres Melnik">Okres Melnik</option>
+              <option value="Okres Mlada Boleslav">Okres Mlada Boleslav</option>
+              <option value="Okres Most">Okres Most</option>
+              <option value="Okres Nachod">Okres Nachod</option>
+              <option value="Okres Novy Jicin">Okres Novy Jicin</option>
+              <option value="Okres Nymburk">Okres Nymburk</option>
+              <option value="Okres Olomouc">Okres Olomouc</option>
+              <option value="Okres Opava">Okres Opava</option>
+              <option value="Okres Ostrava-mesto">Okres Ostrava-mesto</option>
+              <option value="Okres Pardubice">Okres Pardubice</option>
+              <option value="Okres Pelhrimov">Okres Pelhrimov</option>
+              <option value="Okres Pisek">Okres Pisek</option>
+              <option value="Okres Plzen-jih">Okres Plzen-jih</option>
+              <option value="Okres Plzen-mesto">Okres Plzen-mesto</option>
+              <option value="Okres Plzen-sever">Okres Plzen-sever</option>
+              <option value="Okres Praha-vychod">Okres Praha-vychod</option>
+              <option value="Okres Praha-zapad">Okres Praha-zapad</option>
+              <option value="Okres Prachatice">Okres Prachatice</option>
+              <option value="Okres Prostejov">Okres Prostejov</option>
+              <option value="Okres Prerov">Okres Prerov</option>
+              <option value="Okres Pribram">Okres Pribram</option>
+              <option value="Okres Rakovnik">Okres Rakovnik</option>
+              <option value="Okres Rokycany">Okres Rokycany</option>
+              <option value="Okres Rychnov nad Kneznou">Okres Rychnov nad Kneznou</option>
+              <option value="Okres Semily">Okres Semily</option>
+              <option value="Okres Sokolov">Okres Sokolov</option>
+              <option value="Okres Strakonice">Okres Strakonice</option>
+              <option value="Okres Svitavy">Okres Svitavy</option>
+              <option value="Okres Sumperk">Okres Sumperk</option>
+              <option value="Okres Tabor">Okres Tabor</option>
+              <option value="Okres Tachov">Okres Tachov</option>
+              <option value="Okres Teplice">Okres Teplice</option>
+              <option value="Okres Trutnov">Okres Trutnov</option>
+              <option value="Okres Trebic">Okres Trebic</option>
+              <option value="Okres Uherske Hradiste">Okres Uherske Hradiste</option>
+              <option value="Okres Usti nad Labem">Okres Usti nad Labem</option>
+              <option value="Okres Usti nad Orlici">Okres Usti nad Orlici</option>
+              <option value="Okres Vsetin">Okres Vsetin</option>
+              <option value="Okres Vyskov">Okres Vyskov</option>
+              <option value="Okres Zlin">Okres Zlin</option>
+              <option value="Okres Znojmo">Okres Znojmo</option>
+              <option value="Okres Zdar nad Sazavou">Okres Zdar nad Sazavou</option>
             </select>
           </div>
           <div class="form-check">

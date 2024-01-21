@@ -1,0 +1,186 @@
+<!-- src/main/resources/templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+
+<!-- Your HTML content -->
+
+<!-- Bootstrap Success Dialog -->
+
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container-fluid">
+  <div th:replace="fragments/header :: sidebar"></div>
+
+
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 ml-10">
+
+    <div class="container">
+
+
+      <div class="jumbotron w-100 mt-5">
+
+        <form th:action="@{/all_jobs}" method="get">
+          <!-- Dropdown for selecting categories -->
+          <select name="category">
+            <option value="" th:selected="${selectedCategory == null}">All Categories</option>
+            <option value="Software Developer">Software Developer</option>
+            <option value="Data Analyst">Data Analyst</option>
+            <option value="Graphic Designer">Graphic Designer</option>
+            <option value="Marketing Specialist">Marketing Specialist</option>
+            <option value="Customer Support">Customer Support</option>
+            <option value="Financial Analyst">Financial Analyst</option>
+            <option value="Project Manager">Project Manager</option>
+            <option value="Human Resources">Human Resources</option>
+            <option value="Sales Executive">Sales Executive</option>
+            <option value="Network Engineer">Network Engineer</option>
+            <option value="Healthcare Professional">Healthcare Professional</option>
+            <option value="Teacher">Teacher</option>
+            <option value="Mechanical Engineer">Mechanical Engineer</option>
+            <option value="Electrician">Electrician</option>
+            <option value="Chef">Chef</option>
+            <option value="Writer">Writer</option>
+            <option value="Photographer">Photographer</option>
+            <option value="Event Planner">Event Planner</option>
+            <option value="Social Media Manager">Social Media Manager</option>
+            <option value="Construction Worker">Construction Worker</option>
+            <option value="Research Scientist">Research Scientist</option>
+            <option value="Lawyer">Lawyer</option>
+            <option value="Fitness Instructor">Fitness Instructor</option>
+            <option value="Logistics Coordinator">Logistics Coordinator</option>
+            <option value="Architect">Architect</option>
+            <option value="Translator">Translator</option>
+            <option value="Video Editor">Video Editor</option>
+            <option value="Event Coordinator">Event Coordinator</option>
+            <option value="Pharmacist">Pharmacist</option>
+          </select>
+
+          <select name="area">
+            <option value="" th:selected="${selectedArea == null}">All Areas</option>
+            <option value="Okres Benesov">Okres Benesov</option>
+            <option value="Okres Beroun">Okres Beroun</option>
+            <option value="Okres Blansko">Okres Blansko</option>
+            <option value="Okres Brno-mesto">Okres Brno-mesto</option>
+            <option value="Okres Brno-venkov">Okres Brno-venkov</option>
+            <option value="Okres Bruntal">Okres Bruntal</option>
+            <option value="Okres Breclav">Okres Breclav</option>
+            <option value="Okres Ceska Lipa">Okres Ceska Lipa</option>
+            <option value="Okres Ceske Budejovice">Okres Ceske Budejovice</option>
+            <option value="Okres Cesky Krumlov">Okres Cesky Krumlov</option>
+            <option value="Okres Decin">Okres Decin</option>
+            <option value="Okres Domazlice">Okres Domazlice</option>
+            <option value="Okres Frydek-Mistek">Okres Frydek-Mistek</option>
+            <option value="Okres Havlickuv Brod">Okres Havlickuv Brod</option>
+            <option value="Okres Hodonin">Okres Hodonin</option>
+            <option value="Okres Hradec Kralove">Okres Hradec Kralove</option>
+            <option value="Okres Cheb">Okres Cheb</option>
+            <option value="Okres Chomutov">Okres Chomutov</option>
+            <option value="Okres Chrudim">Okres Chrudim</option>
+            <option value="Okres Jablonec nad Nisou">Okres Jablonec nad Nisou</option>
+            <option value="Okres Jesenik">Okres Jesenik</option>
+            <option value="Okres Jicin">Okres Jicin</option>
+            <option value="Okres Jihlava">Okres Jihlava</option>
+            <option value="Okres Jindrichuv Hradec">Okres Jindrichuv Hradec</option>
+            <option value="Okres Karlovy Vary">Okres Karlovy Vary</option>
+            <option value="Okres Karvina">Okres Karvina</option>
+            <option value="Okres Kladno">Okres Kladno</option>
+            <option value="Okres Klatovy">Okres Klatovy</option>
+            <option value="Okres Kolin">Okres Kolin</option>
+            <option value="Okres Kromeriz">Okres Kromeriz</option>
+            <option value="Okres Kutna Hora">Okres Kutna Hora</option>
+            <option value="Okres Liberec">Okres Liberec</option>
+            <option value="Okres Litomerice">Okres Litomerice</option>
+            <option value="Okres Louny">Okres Louny</option>
+            <option value="Okres Melnik">Okres Melnik</option>
+            <option value="Okres Mlada Boleslav">Okres Mlada Boleslav</option>
+            <option value="Okres Most">Okres Most</option>
+            <option value="Okres Nachod">Okres Nachod</option>
+            <option value="Okres Novy Jicin">Okres Novy Jicin</option>
+            <option value="Okres Nymburk">Okres Nymburk</option>
+            <option value="Okres Olomouc">Okres Olomouc</option>
+            <option value="Okres Opava">Okres Opava</option>
+            <option value="Okres Ostrava-mesto">Okres Ostrava-mesto</option>
+            <option value="Okres Pardubice">Okres Pardubice</option>
+            <option value="Okres Pelhrimov">Okres Pelhrimov</option>
+            <option value="Okres Pisek">Okres Pisek</option>
+            <option value="Okres Plzen-jih">Okres Plzen-jih</option>
+            <option value="Okres Plzen-mesto">Okres Plzen-mesto</option>
+            <option value="Okres Plzen-sever">Okres Plzen-sever</option>
+            <option value="Okres Praha-vychod">Okres Praha-vychod</option>
+            <option value="Okres Praha-zapad">Okres Praha-zapad</option>
+            <option value="Okres Prachatice">Okres Prachatice</option>
+            <option value="Okres Prostejov">Okres Prostejov</option>
+            <option value="Okres Prerov">Okres Prerov</option>
+            <option value="Okres Pribram">Okres Pribram</option>
+            <option value="Okres Rakovnik">Okres Rakovnik</option>
+            <option value="Okres Rokycany">Okres Rokycany</option>
+            <option value="Okres Rychnov nad Kneznou">Okres Rychnov nad Kneznou</option>
+            <option value="Okres Semily">Okres Semily</option>
+            <option value="Okres Sokolov">Okres Sokolov</option>
+            <option value="Okres Strakonice">Okres Strakonice</option>
+            <option value="Okres Svitavy">Okres Svitavy</option>
+            <option value="Okres Sumperk">Okres Sumperk</option>
+            <option value="Okres Tabor">Okres Tabor</option>
+            <option value="Okres Tachov">Okres Tachov</option>
+            <option value="Okres Teplice">Okres Teplice</option>
+            <option value="Okres Trutnov">Okres Trutnov</option>
+            <option value="Okres Trebic">Okres Trebic</option>
+            <option value="Okres Uherske Hradiste">Okres Uherske Hradiste</option>
+            <option value="Okres Usti nad Labem">Okres Usti nad Labem</option>
+            <option value="Okres Usti nad Orlici">Okres Usti nad Orlici</option>
+            <option value="Okres Vsetin">Okres Vsetin</option>
+            <option value="Okres Vyskov">Okres Vyskov</option>
+            <option value="Okres Zlin">Okres Zlin</option>
+            <option value="Okres Znojmo">Okres Znojmo</option>
+            <option value="Okres Zdar nad Sazavou">Okres Zdar nad Sazavou</option>
+          </select>
+
+          <!-- Search button -->
+          <button type="submit">Search</button>
+        </form>
+
+        <div id="alertContainer" style="display: none;"></div>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Job Category</th>
+            <th>Job Company</th>
+            <th>Job Description</th>
+            <th>Job Name</th>
+            <th>Job Salary</th>
+            <th>Job Area</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- Iterate over the list of jobs -->
+          <tr th:each="job : ${jobs}">
+            <td th:text="${job.jobCategory}"></td>
+            <td th:text="${job.jobCompany}"></td>
+            <td th:text="${job.jobDescription}"></td>
+            <td th:text="${job.jobName}"></td>
+            <td th:text="${job.jobSalary}" th:if="${#authentication.principal != 'anonymousUser'}"></td>
+            <td th:if="${#authentication.principal == 'anonymousUser'}" class="alert-danger"><a href="/login">Login to view job salary</a></td>
+            <td th:text="${job.jobArea}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

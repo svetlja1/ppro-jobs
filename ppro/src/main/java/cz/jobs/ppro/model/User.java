@@ -2,18 +2,16 @@ package cz.jobs.ppro.model;
 
 import cz.jobs.ppro.security.CustomSimpleGrantedAuthority;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
 public class User {
 
     @Id
@@ -29,9 +27,9 @@ public class User {
     @Column(nullable = false)
     private String role;
 
-    public User(String username, String hashedPassword, String role) {
+    public User(String username, String password, String role) {
         this.username = username;
-        this.password = hashedPassword;
+        this.password = password;
         this.role = role;
     }
 }

@@ -31,11 +31,13 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
-                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+                        authorizationManagerRequestMatcherRegistry
+                                //.requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")
-                                .requestMatchers("/user/**", "/dashboard/**").hasAnyRole("SEEKER", "SPONSOR", "ADMIN")
-                                .requestMatchers("/add_job/**").hasAnyRole("SPONSOR", "ADMIN")
-                                .requestMatchers("/login/**", "/register/**").permitAll()
+                                .requestMatchers("/user/**", "/dashboard/**", "/jobs/**").hasAnyRole("SEEKER", "MANAGER", "ADMIN")
+                                .requestMatchers("/add_job/**").hasAnyRole("MANAGER", "ADMIN")
+                                .requestMatchers("/my_jobs/**").hasAnyRole("MANAGER")
+                                .requestMatchers("/login/**", "/register/**", "/all_jobs/**").permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(formLogin ->
                         formLogin

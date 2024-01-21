@@ -34,7 +34,7 @@
             Dashboard
           </a>
         </li>
-        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_SPONSOR'') or hasRole(''ROLE_ADMIN'')')}">
+        <li class="nav-item" th:if="${#authorization.expression('hasRole(''MANAGER'') or hasRole(''ADMIN'')')}">
           <a class="nav-link" href="#">
             Add Job
           </a>

@@ -27,13 +27,13 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Jobs</a>
+            <a class="nav-link" href="/all_jobs">Jobs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="/about">About</a>
           </li>
           <!-- Add more menu items as needed -->
         </ul>
@@ -46,7 +46,7 @@
   </header>
 
 
-  <nav class="col-md-3 col-lg-2 d-md-block sidebar" th:fragment="sidebar">
+    <nav class="col-md-3 col-lg-2 d-md-block sidebar" th:fragment="sidebar" th:if="${#authentication.principal != 'anonymousUser'}" >
     <a class="navbar-brand mt-5" href="#">
       Your Logo
     </a>
@@ -58,7 +58,7 @@
             <strong>Welcome, <span th:text="${#authentication.name}"></span>!</strong>
             Your Role: <span th:text="${#authentication.authorities[0].authority}"></span>
           </p>
-          <a class="nav-link active" href="#">
+          <a class="nav-link active" href="/dashboard">
             Dashboard
           </a>
         </li>
@@ -67,9 +67,14 @@
             Find Job
           </a>
         </li>
-        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_SPONSOR'') or hasRole(''ROLE_ADMIN'')')}">
+        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'') or hasRole(''ROLE_ADMIN'')')}">
           <a class="nav-link" href="/add_job">
             Add Job
+          </a>
+        </li>
+        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
+          <a class="nav-link" href="/my_jobs">
+            My added Jobs
           </a>
         </li>
         <li class="nav-item">
