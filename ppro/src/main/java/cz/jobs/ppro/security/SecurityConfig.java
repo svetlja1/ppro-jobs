@@ -33,7 +33,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")
-                                .requestMatchers("/user/**", "/dashboard/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/user/**", "/dashboard/**").hasAnyRole("SEEKER", "SPONSOR", "ADMIN")
+                                .requestMatchers("/add_job/**").hasAnyRole("SPONSOR", "ADMIN")
                                 .requestMatchers("/login/**", "/register/**").permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(formLogin ->

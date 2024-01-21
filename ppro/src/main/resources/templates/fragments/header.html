@@ -1,0 +1,101 @@
+<!-- src/main/resources/templates/fragments/header.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Portal</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Your custom CSS -->
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">
+        Job Portal
+      </a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Jobs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <!-- Add more menu items as needed -->
+        </ul>
+
+        <!-- Add login/logout or user-related content here -->
+        <!-- For example, you can add a login/logout button or display the user's name -->
+
+      </div>
+    </nav>
+  </header>
+
+
+  <nav class="col-md-3 col-lg-2 d-md-block sidebar" th:fragment="sidebar">
+    <a class="navbar-brand mt-5" href="#">
+      Your Logo
+    </a>
+    <div class="sidebar-sticky">
+      <ul class="nav flex-column">
+
+        <li class="nav-item">
+          <p class="nav-link text-white mt-3 mb-0">
+            <strong>Welcome, <span th:text="${#authentication.name}"></span>!</strong>
+            Your Role: <span th:text="${#authentication.authorities[0].authority}"></span>
+          </p>
+          <a class="nav-link active" href="#">
+            Dashboard
+          </a>
+        </li>
+        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_SEEKER'') or hasRole(''ROLE_ADMIN'')')}">
+          <a class="nav-link" href="#">
+            Find Job
+          </a>
+        </li>
+        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_SPONSOR'') or hasRole(''ROLE_ADMIN'')')}">
+          <a class="nav-link" href="/add_job">
+            Add Job
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            Profile
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            Settings
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

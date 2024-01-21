@@ -56,22 +56,15 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> performLogin(@ModelAttribute("user") @Valid User user) {
         try {
-            // Vytvoření autentizačního objektu s uživatelským jménem a heslem
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     user.getUsername(),
                     user.getPassword()
             );
 
-            // Autentizace
             Authentication authenticated = authenticationManager.authenticate(authentication);
 
-            // Nastavení autentizovaného uživatele do SecurityContext
             SecurityContextHolder.getContext().setAuthentication(authenticated);
 
-            // Nyní můžete volat metodu loadUserByUsername manuálně, ale Spring Security to udělá za vás
-            UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
-
-            // userDetails obsahuje informace o autentizovaném uživateli
 
             return ResponseEntity.ok("Přihlášení úspěšné");
         } catch (AuthenticationException e) {

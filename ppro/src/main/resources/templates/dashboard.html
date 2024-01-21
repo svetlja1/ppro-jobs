@@ -1,91 +1,32 @@
+<!-- src/main/resources/templates/dashboard.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-        }
-
-        .container-fluid {
-            height: 100%;
-            display: flex;
-            padding-left: 0;
-        }
-
-        .sidebar {
-            height: 100%;
-            position: fixed;
-            background-color: #343a40; /* Bootstrap dark color */
-            padding-top: 20px;
-        }
-
-        .sidebar a {
-            padding: 16px 16px;
-            text-decoration: none;
-            font-size: 18px;
-            color: white;
-            display: block;
-            transition: 0.3s;
-        }
-
-        .sidebar a:hover {
-            color: #007bff; /* Bootstrap primary color */
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            background-color: #f8f9fa; /* Bootstrap light color */
-        }
-    </style>
-    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
+<div th:replace="fragments/header :: header"></div>
 
 <div class="container-fluid">
-    <!-- Sidebar -->
-    <nav class="col-md-3 col-lg-2 d-md-block sidebar">
-        <a class="navbar-brand" href="#">
-            Your Logo
-        </a>
-        <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">
-                        Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Profile
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Settings
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Logout
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+        <div th:replace="fragments/header :: sidebar"></div>
 
-    <!-- Main content area -->
-    <main role="main" class="main-content">
-        <h1 class="h2">Dashboard</h1>
 
-        <!-- Your main content goes here -->
-
-    </main>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 ml-10">
+            <div class="container-fluid">
+            <!-- Your main content goes here -->
+            <div class="jumbotron mt-4">
+                <h1 class="display-4">Welcome, <span th:text="${#authentication.name}"></span>!</h1>
+                <p class="lead">Your Role: <span th:text="${#authentication.authorities[0].authority}"></span></p>
+                <hr class="my-4">
+                <p>This is a simple and nice-looking main content area. You can customize it with your ggggg</p>
+            </div>
+            </div>
+        </main>
 </div>
+
+<div th:replace="fragments/footer :: footer"></div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>

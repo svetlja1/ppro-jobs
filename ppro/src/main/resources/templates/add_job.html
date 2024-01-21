@@ -1,0 +1,105 @@
+<!-- src/main/resources/templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container-fluid">
+  <div th:replace="fragments/header :: sidebar"></div>
+
+
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 ml-10">
+    <div class="container">
+        <div class="alert alert-danger mt-5 w-100" role="alert">
+          <h4 class="alert-heading">Info regarding adding job</h4>
+          <p>
+            Some information you publish won't be seen to non-registered users, such as salary, etc.
+          </p>
+          <hr>
+          <p class="mb-0">Make sure that all informations are correct.</p>
+        </div>
+      <div class="jumbotron w-100 mt-5">
+        <form th:object="${job}" th:action="@{/add_job}" method="post">
+          <div class="form-group">
+            <label for="jobName">Job name</label>
+            <input type="text" class="form-control" id="jobName" placeholder="Enter job name">
+          </div>
+          <div class="form-group">
+            <label for="jobCategory">Job Category:</label>
+            <select id="jobCategory" name="jobCategory" class="form-select w-100 p-1" required>
+              <option selected>Select Job Category</option>
+                <option value="software_developer">Software Developer</option>
+                <option value="data_analyst">Data Analyst</option>
+                <option value="graphic_designer">Graphic Designer</option>
+                <option value="marketing_specialist">Marketing Specialist</option>
+                <option value="customer_support">Customer Support</option>
+                <option value="financial_analyst">Financial Analyst</option>
+                <option value="project_manager">Project Manager</option>
+                <option value="human_resources">Human Resources</option>
+                <option value="sales_executive">Sales Executive</option>
+                <option value="network_engineer">Network Engineer</option>
+                <option value="healthcare_professional">Healthcare Professional</option>
+                <option value="teacher">Teacher</option>
+                <option value="mechanical_engineer">Mechanical Engineer</option>
+                <option value="electrician">Electrician</option>
+                <option value="chef">Chef</option>
+                <option value="writer">Writer</option>
+                <option value="photographer">Photographer</option>
+                <option value="event_planner">Event Planner</option>
+                <option value="social_media_manager">Social Media Manager</option>
+                <option value="construction_worker">Construction Worker</option>
+                <option value="research_scientist">Research Scientist</option>
+                <option value="lawyer">Lawyer</option>
+                <option value="fitness_instructor">Fitness Instructor</option>
+                <option value="logistics_coordinator">Logistics Coordinator</option>
+                <option value="architect">Architect</option>
+                <option value="translator">Translator</option>
+                <option value="video_editor">Video Editor</option>
+                <option value="event_coordinator">Event Coordinator</option>
+                <option value="pharmacist">Pharmacist</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="jobDescription">Job description:</label>
+            <textarea type="text" class="form-control" id="jobDescription" rows="5" placeholder="Enter job description"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="jobSalary">Job salary per month</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">$</span>
+              </div>
+              <input type="text" class="form-control" id="jobSalary" placeholder="Enter job salary">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="jobCompany">Job Company:</label>
+            <select id="jobCompany" name="jobCompany" class="form-select w-100 p-1" required>
+              <option selected>Select Job Company</option>
+              <option value="software_developer">My first comp</option>
+              <option value="software_developer">My second comp</option>
+            </select>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
