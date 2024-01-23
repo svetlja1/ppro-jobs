@@ -34,7 +34,7 @@ public class SecurityConfig {
                         authorizationManagerRequestMatcherRegistry
                                 //.requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")
-                                .requestMatchers("/user/**", "/dashboard/**", "/jobs/**").hasAnyRole("SEEKER", "MANAGER", "ADMIN")
+                                .requestMatchers("/user/**", "/dashboard/**", "/jobs/**", "/profile/**").hasAnyRole("SEEKER", "MANAGER", "ADMIN")
                                 .requestMatchers("/add_job/**").hasAnyRole("MANAGER", "ADMIN")
                                 .requestMatchers("/my_jobs/**").hasAnyRole("MANAGER")
                                 .requestMatchers("/login/**", "/register/**", "/all_jobs/**").permitAll()

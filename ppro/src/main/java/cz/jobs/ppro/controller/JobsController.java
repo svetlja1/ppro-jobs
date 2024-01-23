@@ -25,7 +25,6 @@ public class JobsController {
 
     @Autowired
     private JobService jobService;
-
     @GetMapping("/add_job")
     public String addJob() {
         return "add_job";
@@ -37,6 +36,7 @@ public class JobsController {
         }
 
         Long userId = authenticationFacade.getAuthenticatedUserId();
+
         job.setUserId(userId);
         jobService.addJob(job);
         return "redirect:/dashboard";

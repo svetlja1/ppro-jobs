@@ -1,5 +1,8 @@
 package cz.jobs.ppro.service;
 
+import cz.jobs.ppro.model.CV;
+import cz.jobs.ppro.model.Manager;
+import cz.jobs.ppro.model.Seeker;
 import cz.jobs.ppro.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,4 +17,9 @@ public interface UserService extends UserDetailsService {
 
     Long findIdByUsername(String username);
 
+    User findUserById(Long id);
+
+    Seeker findSeekerByUserId(Long id);
+    Manager findManagerById(Long id);
+    void updateCV(CV cv);
 }

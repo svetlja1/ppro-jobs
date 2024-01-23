@@ -13,21 +13,33 @@
   <div th:replace="fragments/header :: sidebar"></div>
 
 
-  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 ml-10">
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 ml-10 mt-5">
     <div class="container">
-        <div class="alert alert-danger mt-5 w-100" role="alert">
-          <h4 class="alert-heading">Info regarding adding job</h4>
+        <div class="alert alert-warning mt-3 w-100" role="alert">
+          <h4 class="alert-warning">Info regarding adding job</h4>
           <p>
             Some information you publish won't be seen to non-registered users, such as salary, etc.
           </p>
           <hr>
           <p class="mb-0">Make sure that all informations are correct.</p>
         </div>
+      <div class="alert alert-info mt-3 w-100" role="alert">
+        <h4 class="alert-info">Price for job listing</h4>
+        <p>
+          Due to inflation, we had to increase price for job listing from $1 to $6666.
+        </p>
+        <hr>
+        <p class="mb-0">We're sorry for any frustration caused.</p>
+      </div>
       <div class="jumbotron w-100 mt-5">
-        <form th:object="${job}" th:action="@{/add_job}" method="post">
+        <h1>Add a Job</h1>
+        <form th:object="${job}" th:action="@{/add_job}" method="post" onsubmit="return validateForm()">
           <div class="form-group">
             <label for="jobName">Job name</label>
             <input type="text" class="form-control" id="jobName" name="jobName" placeholder="Enter job name">
+            <div id="jobNameError" class="alert alert-danger mt-3" style="display: none;">
+              Please enter job name.
+            </div>
           </div>
           <div class="form-group">
             <label for="jobCategory">Job Category:</label>
@@ -63,10 +75,16 @@
               <option value="Event Coordinator">Event Coordinator</option>
               <option value="Pharmacist">Pharmacist</option>
             </select>
+            <div id="jobCategoryError" class="alert alert-danger mt-3" style="display: none;">
+              Please add job company.
+            </div>
           </div>
           <div class="form-group">
             <label for="jobDescription">Job description:</label>
             <textarea type="text" class="form-control" id="jobDescription" name="jobDescription" rows="5" placeholder="Enter job description"></textarea>
+            <div id="jobDescriptionError" class="alert alert-danger mt-3" style="display: none;">
+              Please enter job description.
+            </div>
           </div>
           <div class="form-group">
             <label for="jobSalary">Job salary per month</label>
@@ -76,6 +94,9 @@
               </div>
               <input type="text" class="form-control" id="jobSalary" name="jobSalary" placeholder="Enter job salary">
             </div>
+            <div id="jobSalaryError" class="alert alert-danger mt-3" style="display: none;">
+              Please enter job salary.
+            </div>
           </div>
           <div class="form-group">
             <label for="jobCompany">Job Company:</label>
@@ -84,11 +105,17 @@
               <option value="software_developer">My first comp</option>
               <option value="software_developer">My second comp</option>
             </select>
+            <div id="jobCompanyError" class="alert alert-danger mt-3" style="display: none;">
+              Please add job company.
+            </div>
+            <small id="infoMessage" class="form-text text-muted">
+              To add more your companies to choose from, please <a href="upgrade">upgrade</a>.
+            </small>
           </div>
           <div class="form-group">
-            <label for="jobArea">Job Category:</label>
+            <label for="jobArea">Job Area:</label>
             <select id="jobArea" name="jobArea" class="form-select w-100 p-1" required>
-              <option selected>Select Job Area</option>
+              <option selected disabled>Select Job Area</option>
               <option value="Okres Benesov">Okres Benesov</option>
               <option value="Okres Beroun">Okres Beroun</option>
               <option value="Okres Blansko">Okres Blansko</option>
@@ -166,10 +193,17 @@
               <option value="Okres Znojmo">Okres Znojmo</option>
               <option value="Okres Zdar nad Sazavou">Okres Zdar nad Sazavou</option>
             </select>
+              <div id="jobAreaError" class="alert alert-danger mt-3" style="display: none;">
+                Please add job area.
+              </div>
           </div>
           <div class="form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            <label class="form-check-label" for="exampleCheck1">I agree with <a href="terms">terms and conditions</a></label>
+
+          </div>
+          <div id="termsError" class="alert alert-danger mt-3" style="display: none;">
+            Please agree with terms and conditions.
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -183,5 +217,92 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  function validateForm() {
+    var selectedJobArea = document.getElementById('jobArea').value;
+    var jobAreaError = document.getElementById('jobAreaError');
+
+    var jobSalary = document.getElementById('jobSalary').value;
+    var jobSalaryError = document.getElementById('jobSalaryError');
+
+    var selectedJobCompany = document.getElementById('jobCompany').value;
+    var jobCompanyError = document.getElementById('jobCompanyError');
+
+    var selectedJobCategory = document.getElementById('jobCategory').value;
+    var jobCategoryError = document.getElementById('jobCategoryError');
+
+    var jobName = document.getElementById('jobName').value;
+    var jobNameError = document.getElementById('jobNameError');
+
+    var jobDescription = document.getElementById('jobDescription').value;
+    var jobDescriptionError = document.getElementById('jobDescriptionError');
+
+    var agreeTermsCheckbox = document.getElementById('exampleCheck1');
+    var termsError = document.getElementById('termsError');
+
+    var errors = 0;  // Initialize error count
+
+    // Check job area
+    if (selectedJobArea === 'Select Job Area') {
+      jobAreaError.style.display = 'block';
+      errors++;
+    } else {
+      jobAreaError.style.display = 'none';
+    }
+
+    // Add other form field validations here
+    // For example, check job company
+
+
+    // Check job company
+    if (selectedJobCompany === 'Select Job Company') {
+      jobCompanyError.style.display = 'block';
+      errors++;
+    } else {
+      jobCompanyError.style.display = 'none';
+    }
+
+        // Check job categ
+    if (selectedJobCategory === 'Select Job Category') {
+      jobCategoryError.style.display = 'block';
+      errors++;
+    } else {
+      jobCategoryError.style.display = 'none';
+    }
+
+    if (jobName === '') {
+      jobNameError.style.display = 'block';
+      errors++;
+    } else {
+      jobNameError.style.display = 'none';
+    }
+
+    if (jobDescription === '') {
+      jobDescriptionError.style.display = 'block';
+      errors++;
+    } else {
+      jobDescriptionError.style.display = 'none';
+    }
+
+    // Check job salary
+    if (jobSalary.trim() === '') {
+      jobSalaryError.style.display = 'block';
+      errors++;
+    } else {
+      jobSalaryError.style.display = 'none';
+    }
+
+    if (!agreeTermsCheckbox.checked) {
+      termsError.style.display = 'block';
+      errors++;
+    } else {
+      termsError.style.display = 'none';
+    }
+
+    // Return true only if there are no errors
+    return errors === 0;
+  }
+</script>
 </body>
 </html>

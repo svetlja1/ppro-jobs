@@ -1,0 +1,63 @@
+<!-- src/main/resources/templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+
+<!-- Your HTML content -->
+
+<!-- Bootstrap Success Dialog -->
+
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container-fluid">
+  <div th:replace="fragments/header :: sidebar"></div>
+
+
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 ml-10">
+
+    <div class="container mt-5" th:if="${seeker != null}">
+      <form th:action="@{/profile}" th:object="${seeker}" method="post">
+
+        <input type="hidden" name="_method" th:value="put"/>
+
+        <div class="mt-5">
+          <label for="fullName" class="form-label">Full Name:</label>
+          <input class="form-control" type="text" id="fullName" name="cv.personalData.fullName" th:value="${seeker.cv.personalData.fullName}" />
+        </div>
+        <div class="mt-5">
+          <label for="residence" class="form-label">Residence:</label>
+          <input class="form-control" type="text" id="residence" name="cv.personalData.residence" th:value="${seeker.cv.personalData.residence}" />
+        </div>
+        <div class="mt-5">
+          <label for="dateOfBirth" class="form-label">Date Of Birth (YYYY-MM-DD):</label>
+          <input class="form-control" type="text" id="dateOfBirth" name="cv.personalData.dateOfBirth" th:value="${seeker.cv.personalData.dateOfBirth}" />
+        </div>
+        <div class="mt-5">
+          <label for="phoneNumber" class="form-label">Phone Number:</label>
+          <input class="form-control" type="text" id="phoneNumber" name="cv.personalData.phoneNumber" th:value="${seeker.cv.personalData.phoneNumber}" />
+        </div>
+        <div class="mt-5">
+          <label for="email" class="form-label">Email:</label>
+          <input class="form-control" type="text" id="email" name="cv.personalData.email" th:value="${seeker.cv.personalData.email}" />
+        </div>
+
+
+        <button type="submit">Save</button>
+      </form>
+    </div>
+  </main>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,5 +1,9 @@
 package cz.jobs.ppro.controller;
 
+import cz.jobs.ppro.components.AuthenticationFacade;
+import cz.jobs.ppro.model.CV;
+import cz.jobs.ppro.model.Manager;
+import cz.jobs.ppro.model.Seeker;
 import cz.jobs.ppro.model.User;
 import cz.jobs.ppro.service.UserService;
 import jakarta.validation.Valid;
@@ -15,10 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
@@ -27,6 +28,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
+
 
     @GetMapping("/dashboard")
     public String welcome() {
@@ -65,10 +69,38 @@ public class UserController {
 
             SecurityContextHolder.getContext().setAuthentication(authenticated);
 
-
             return ResponseEntity.ok("Přihlášení úspěšné");
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Přihlášení selhalo");
         }
+    }
+
+    @GetMapping("/profile")
+    public String showProfile(Model model) {
+        Long userId = authenticationFacade.getAuthenticatedUserId();
+        User user = userService.findUserById(userId);
+        if(user.getRole().equals("SEEKER")) {
+            Seeker seeker = userService.findSeekerByUserId(userId);
+            model.addAttribute("seeker", seeker);
+        } else if(user.getRole().equals("MANAGER")) {
+            Manager manager = userService.findManagerById(userId);
+            model.addAttribute("manager", manager);
+        }
+        return "profile";
+    }
+
+    @PutMapping("/profile")
+    public String editProfile(@ModelAttribute Seeker seeker) {
+        CV cv = seeker.getCv();
+
+        Long userId = authenticationFacade.getAuthenticatedUserId();
+        Seeker seeker1 = userService.findSeekerByUserId(userId);
+
+
+        cv.setId(seeker1.getCv().getId());
+
+        // TODO nejdriv uloz personal data atd..
+        userService.updateCV(cv);
+        return "redirect:/profile";
     }
 }

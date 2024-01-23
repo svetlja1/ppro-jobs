@@ -2,21 +2,17 @@ package cz.jobs.ppro.service;
 
 import cz.jobs.ppro.exception.UserAlreadyExistsException;
 import cz.jobs.ppro.exception.UserNotFoundException;
-import cz.jobs.ppro.model.Manager;
-import cz.jobs.ppro.model.User;
-import cz.jobs.ppro.repository.ManagerRepository;
-import cz.jobs.ppro.repository.UserRepository;
-import cz.jobs.ppro.security.CustomSimpleGrantedAuthority;
+import cz.jobs.ppro.model.*;
+import cz.jobs.ppro.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.sql.Date;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -28,7 +24,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ManagerRepository managerRepository;
     @Autowired
+    private SeekerRepository seekerRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PersonalDataRepository personalDataRepository;
+    @Autowired
+    private CVRepository cvRepository;
+    @Autowired
+    private EducationRepository educationRepository;
+
     @Override
     public void registerUser(User user) {
 
@@ -48,9 +53,19 @@ public class UserServiceImpl implements UserService {
             Manager newManager = new Manager(newUser, null);
             managerRepository.save(newManager);
         }
-//        else if(user.getRole().equals("SEEKER")) {
-//            User newUser = new User(user.getUsername(), hashedPassword, user.getRole());
-//        }
+        else if(user.getRole().equals("SEEKER")) {
+            User newUser = new User(user.getUsername(), hashedPassword, user.getRole());
+            userRepository.save(newUser);
+
+            PersonalData personalData = new PersonalData();
+            personalDataRepository.save(personalData);
+
+            CV cv = new CV(personalData);
+            cvRepository.save(cv);
+
+            Seeker newSeeker = new Seeker(newUser, cv);
+            seekerRepository.save(newSeeker);
+        }
 
 
     }
@@ -82,6 +97,29 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new UserNotFoundException("User with username " + username + " not found");
         }
+    }
 
+    @Override
+    public User findUserById(Long id) {
+        return userRepository.getReferenceById(id);
+    }
+
+    public Seeker findSeekerByUserId(Long id) {
+        return seekerRepository.findByUserId(id);
+    }
+
+    public void updateCV(CV cv) {
+
+        Optional<CV> optionalCvFromDb = cvRepository.findById(cv.getId());
+        if(optionalCvFromDb.isPresent()){
+            CV cvFromDB = optionalCvFromDb.get();
+            cvFromDB.setPersonalData(cv.getPersonalData());
+            cvRepository.save(cvFromDB);
+        }
+
+
+    }
+    public Manager findManagerById(Long id) {
+        return managerRepository.getReferenceById(id);
     }
 }
