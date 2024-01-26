@@ -98,12 +98,11 @@
               Please enter job salary.
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" th:if="${manager != null and manager.company != null and manager.company != ''}">
             <label for="jobCompany">Job Company:</label>
             <select id="jobCompany" name="jobCompany" class="form-select w-100 p-1" required>
               <option selected>Select Job Company</option>
-              <option value="software_developer">My first comp</option>
-              <option value="software_developer">My second comp</option>
+              <option th:utext="${manager.company}" th:value="${manager.company}"></option>
             </select>
             <div id="jobCompanyError" class="alert alert-danger mt-3" style="display: none;">
               Please add job company.
@@ -111,6 +110,10 @@
             <small id="infoMessage" class="form-text text-muted">
               To add more your companies to choose from, please <a href="upgrade">upgrade</a>.
             </small>
+          </div>
+          <div class="alert alert-warning mt-3 w-100" role="alert" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')') and (manager.company == null or manager.company == '')}">
+
+            <p>Please, add a Job Company from your <a href="profile">Profile page</a> first. Then you will be able to submit a form.</p>
           </div>
           <div class="form-group">
             <label for="jobArea">Job Area:</label>
@@ -205,7 +208,7 @@
           <div id="termsError" class="alert alert-danger mt-3" style="display: none;">
             Please agree with terms and conditions.
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')') and manager.company != null and manager.company != ''}">Submit</button>
         </form>
       </div>
     </div>

@@ -1,8 +1,10 @@
 package cz.jobs.ppro.service;
 
 import cz.jobs.ppro.model.Job;
+import cz.jobs.ppro.model.Reply;
 import cz.jobs.ppro.repository.JobRepository;
-import cz.jobs.ppro.repository.UserRepository;
+import cz.jobs.ppro.repository.ReplyRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ public class JobServiceImpl implements JobService{
 
     @Autowired
     private JobRepository jobRepository;
+    @Autowired
+    private ReplyRepository replyRepository;
 
     @Override
     public void addJob(Job job) {
@@ -50,4 +54,14 @@ public class JobServiceImpl implements JobService{
         return jobRepository.findAllByJobCategoryAndJobArea(category, area);
     }
 
+    @Override
+    public Job getJobById(long jobId){
+            Optional<Job> job = jobRepository.findById(jobId);
+        return job.orElse(null);
+    }
+
+    @Override
+    public void addReply(Reply reply){
+        replyRepository.save(reply);
+    }
 }

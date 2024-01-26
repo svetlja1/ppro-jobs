@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -36,12 +38,15 @@ public class Job {
     private String jobCompany;
 
     @Column(nullable = false)
-    private Long userId;
+    private long userId;
 
     @Column(nullable = false)
     private String jobArea;
 
-    public Job(String jobName, String jobCategory, String jobDescription, int jobSalary, String jobCompany, Long userId, String jobArea) {
+    @OneToMany(mappedBy="job", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reply> replyList = new ArrayList<>();
+
+    public Job(String jobName, String jobCategory, String jobDescription, int jobSalary, String jobCompany, long userId, String jobArea) {
         this.jobName = jobName;
         this.jobCategory = jobCategory;
         this.jobDescription = jobDescription;

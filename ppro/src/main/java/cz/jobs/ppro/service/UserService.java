@@ -1,9 +1,6 @@
 package cz.jobs.ppro.service;
 
-import cz.jobs.ppro.model.CV;
-import cz.jobs.ppro.model.Manager;
-import cz.jobs.ppro.model.Seeker;
-import cz.jobs.ppro.model.User;
+import cz.jobs.ppro.model.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,5 +18,18 @@ public interface UserService extends UserDetailsService {
 
     Seeker findSeekerByUserId(Long id);
     Manager findManagerById(Long id);
-    void updateCV(CV cv);
+    void savePersonalData(PersonalData personalData);
+
+    void saveCV(CV cv);
+    void saveSeeker(Seeker seeker);
+    void saveEducation(Education education);
+    void deleteEducationsByCvId(Long cvId);
+
+    void deleteExperiencesByCvId(Long cvId);
+    void saveExperience(WorkingExperience workingExperience);
+
+    void saveManager(Manager manager);
+
+    Manager findManagerByUserId(Long userId);
+    CV getCvById(Long id);
 }

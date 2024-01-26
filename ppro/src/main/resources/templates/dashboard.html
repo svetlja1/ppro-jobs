@@ -14,13 +14,11 @@
 
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 ml-10">
-            <div class="container-fluid">
-            <!-- Your main content goes here -->
-            <div class="jumbotron mt-4">
-                <h1 class="display-4">Welcome, <span th:text="${#authentication.name}"></span>!</h1>
-                <p class="lead">Your Role: <span th:text="${#authentication.authorities[0].authority}"></span></p>
-                <hr class="my-4">
-                <p>This is a simple and nice-looking main content area. You can customize it with your ggggg</p>
+            <div class="jumbotron">
+            <div th:if="${param.jobPostSuccess}">
+                <div class="alert alert-success">
+                    <span th:text="#{jobPost.success}"></span>
+                </div>
             </div>
             </div>
         </main>

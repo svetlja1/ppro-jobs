@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="seekers")
 @NoArgsConstructor
@@ -23,6 +26,9 @@ public class Seeker{
     @OneToOne
     @JoinColumn(name = "cv_id", referencedColumnName = "id")
     private CV cv;
+
+    @OneToMany(mappedBy="seeker", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reply> replyList = new ArrayList<>();
 
     public Seeker(User user, CV cv) {
         this.user = user;

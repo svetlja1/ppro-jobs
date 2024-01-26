@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="educations")
+@Table(name="working_experiences")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Education {
+public class WorkingExperience {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,13 +21,13 @@ public class Education {
     private CV cv;
 
     @Column(nullable = true)
-    private String education;
+    private String workingExperience;
     private int startYear;
     private int endYear;
 
-    public Education(CV cv, String education, int startYear, int endYear) {
+    public WorkingExperience(CV cv, String workingExperience, int startYear, int endYear) {
         this.cv = cv;
-        this.education = education;
+        this.workingExperience = workingExperience;
         this.startYear = startYear;
         this.endYear = endYear;
     }

@@ -33,6 +33,8 @@ public class UserServiceImpl implements UserService {
     private CVRepository cvRepository;
     @Autowired
     private EducationRepository educationRepository;
+    @Autowired
+    private WorkingExperienceRepository workingExperienceRepository;
 
     @Override
     public void registerUser(User user) {
@@ -108,18 +110,39 @@ public class UserServiceImpl implements UserService {
         return seekerRepository.findByUserId(id);
     }
 
-    public void updateCV(CV cv) {
-
-        Optional<CV> optionalCvFromDb = cvRepository.findById(cv.getId());
-        if(optionalCvFromDb.isPresent()){
-            CV cvFromDB = optionalCvFromDb.get();
-            cvFromDB.setPersonalData(cv.getPersonalData());
-            cvRepository.save(cvFromDB);
-        }
-
-
+    public void savePersonalData(PersonalData personalData) {
+       personalDataRepository.save(personalData);
+    }
+    public void saveCV(CV cv) {
+        cvRepository.save(cv);
+    }
+    public void saveSeeker(Seeker seeker) {
+        seekerRepository.save(seeker);
     }
     public Manager findManagerById(Long id) {
         return managerRepository.getReferenceById(id);
+    }
+    public void saveEducation(Education education){
+        educationRepository.save(education);
+    }
+
+    public void deleteEducationsByCvId(Long cvId) {
+        educationRepository.deleteByCvId(cvId);
+    }
+    public void deleteExperiencesByCvId(Long cvId) {
+        workingExperienceRepository.deleteByCvId(cvId);
+    }
+    public void saveExperience(WorkingExperience workingExperience){
+        workingExperienceRepository.save(workingExperience);
+    }
+    public CV getCvById(Long id) {
+        return cvRepository.getReferenceById(id);
+    }
+
+    public void saveManager(Manager manager){
+        managerRepository.save(manager);
+    }
+    public Manager findManagerByUserId(Long userId){
+        return managerRepository.findByUserId(userId);
     }
 }

@@ -2,12 +2,12 @@ package cz.jobs.ppro.controller;
 
 import cz.jobs.ppro.components.AuthenticationFacade;
 import cz.jobs.ppro.exception.JobNotFoundException;
-import cz.jobs.ppro.model.Job;
-import cz.jobs.ppro.model.User;
+import cz.jobs.ppro.model.*;
 import cz.jobs.ppro.service.JobService;
 import cz.jobs.ppro.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +25,12 @@ public class JobsController {
 
     @Autowired
     private JobService jobService;
+    @Autowired
+    private UserService userService;
     @GetMapping("/add_job")
-    public String addJob() {
+    public String addJob(Model model) {
+        Manager manager = userService.findManagerByUserId(authenticationFacade.getAuthenticatedUserId());
+        model.addAttribute("manager", manager);
         return "add_job";
     }
     @PostMapping("/add_job")
@@ -39,7 +43,7 @@ public class JobsController {
 
         job.setUserId(userId);
         jobService.addJob(job);
-        return "redirect:/dashboard";
+        return "redirect:/dashboard?jobPostSuccess";
     }
 
     @GetMapping("/my_jobs")
@@ -94,7 +98,38 @@ public class JobsController {
 
     @DeleteMapping("/jobs/{jobId}")
     public ResponseEntity<String> deleteJob(@PathVariable Long jobId) {
-        jobService.deleteJob(jobId);
-        return ResponseEntity.ok("Job deleted successfully");
+        Job job = jobService.getJobById(jobId);
+        User user = userService.findUserById(authenticationFacade.getAuthenticatedUserId());
+
+        // Delete only if
+        if(job.getUserId() == authenticationFacade.getAuthenticatedUserId() || (user.getRole().equals("ADMIN"))) {
+            jobService.deleteJob(jobId);
+            return ResponseEntity.ok("Job deleted successfully");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You cannot delete job of other manager");
+        }
+
+    }
+
+    @GetMapping("/jobs/{jobId}")
+    public String getJob(@PathVariable Long jobId, Model model) {
+        Job job = jobService.getJobById(jobId);
+        Long userId = authenticationFacade.getAuthenticatedUserId();
+        if(job != null) {
+            model.addAttribute("job", job);
+            model.addAttribute("userId", userId);
+        }
+        return "job";
+    }
+
+    @PostMapping("/jobs/{jobId}/reply")
+    public String replyHandle(@PathVariable Long jobId, @ModelAttribute("reply") @Valid Reply reply) {
+        reply.setJob(jobService.getJobById(jobId));
+        Seeker seeker = userService.findSeekerByUserId(authenticationFacade.getAuthenticatedUserId());
+        reply.setSeeker(seeker);
+        reply.setCvUrl(seeker.getCv().getLatestCvUrl());
+        jobService.addReply(reply);
+        return "redirect:/jobs/{jobId}?replySent";
     }
 }

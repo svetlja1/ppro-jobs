@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,9 +24,12 @@ public class CV {
     @OneToOne
     @JoinColumn(name = "personal_data_id", referencedColumnName = "id")
     private PersonalData personalData;
+//nebo cvs?
+    @OneToMany(mappedBy="cv", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Education> educationList = new ArrayList<>();
 
-    @OneToMany(mappedBy="cv")
-    private Set<Education> educationList;
+    @OneToMany(mappedBy="cv", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WorkingExperience> workingExperienceList = new ArrayList<>();
 //
 //    @OneToMany
 //    @JoinColumn(name = "education_id", referencedColumnName = "id")
@@ -32,6 +37,9 @@ public class CV {
 //
     @Column(nullable = true)
     private String skills;
+
+    @Column(nullable = true)
+    private String latestCvUrl;
 //
 //
 

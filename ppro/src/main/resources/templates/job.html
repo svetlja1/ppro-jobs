@@ -1,0 +1,85 @@
+<!-- src/main/resources/templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+
+<!-- Your HTML content -->
+
+<!-- Bootstrap Success Dialog -->
+
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container-fluid">
+  <div th:replace="fragments/header :: sidebar"></div>
+
+
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 ml-10">
+
+    <div class="container">
+
+      <div th:if="${job == null}">
+          <div class="jumbotron bg-warning">
+        <p class="lead">Can't find job with this ID</p>
+          </div>
+      </div>
+  <div th:if="${job != null}">
+      <div class="jumbotron w-100 mt-5">
+          <h2 class="display-4" th:text="${job.jobName}"></h2>
+          <p class="lead h4" th:text="${job.jobCompany}"></p>
+          <p class="lead h4" th:text="${job.jobArea}"></p>
+          <hr class="my-4">
+          <p class="lead" th:text="'Category: ' + ${job.jobCategory}"></p>
+          <p class="lead" th:text="${job.jobDescription}"></p>
+          <p class="lead" th:text="'$' + ${job.jobSalary} + ' per month'"></p>
+
+      </div>
+      <div th:if="${#authorization.expression('hasRole(''ROLE_SEEKER'')')}">
+
+        <form th:action="@{'/jobs/' + ${job.id} + '/reply'}" th:object="${reply}" method="post">
+        <div class="mt-5">
+          <label for="comment" class="form-label">Reply to this job:</label>
+          <textarea class="form-control" id="comment" name="comment"></textarea>
+        </div>
+            <div class="alert-danger my-2">By replying, you agree that your CV will be sent to the Manager of this job.</div>
+          <button type="submit" class="btn btn-primary">Reply</button>
+        </form>
+
+        <div th:if="${param.replySent}">
+          <div class="alert alert-success">
+            <span th:text="#{reply.sent}"></span>
+          </div>
+        </div>
+      </div>
+
+
+      <div th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'') or hasRole(''ROLE_ADMIN'')') and userId == job.userId}">
+
+
+
+          <!-- Assuming job.replyList is a list of replies -->
+        <div th:each="reply : ${job.replyList}" class="jumbotron">
+          <p th:text="${reply.comment}"></p>
+          <a th:href="'/download-cv/' + ${reply.cvUrl}">Download his CV</a>
+          <!-- Add more fields as needed -->
+        </div>
+
+
+      </div>
+  </div>
+    </div>
+  </main>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

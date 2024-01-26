@@ -27,7 +27,7 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="#">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/all_jobs">Jobs</a>
@@ -48,7 +48,7 @@
 
     <nav class="col-md-3 col-lg-2 d-md-block sidebar" th:fragment="sidebar" th:if="${#authentication.principal != 'anonymousUser'}" >
     <a class="navbar-brand mt-5" href="#">
-      Your Logo
+
     </a>
     <div class="sidebar-sticky">
       <ul class="nav flex-column">
@@ -63,8 +63,8 @@
           </a>
         </li>
         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_SEEKER'') or hasRole(''ROLE_ADMIN'')')}">
-          <a class="nav-link" href="#">
-            Find Job
+          <a class="nav-link" href="/all_jobs">
+            Job list
           </a>
         </li>
         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'') or hasRole(''ROLE_ADMIN'')')}">
@@ -77,14 +77,9 @@
             My added Jobs
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'') or hasRole(''ROLE_SEEKER'')')}">
           <a class="nav-link" href="/profile">
             Profile
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            Settings
           </a>
         </li>
         <li class="nav-item">

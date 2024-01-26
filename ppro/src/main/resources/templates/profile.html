@@ -21,7 +21,10 @@
 
   <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 ml-10">
 
-    <div class="container mt-5" th:if="${seeker != null}">
+
+    <div class="container mt-5 mb-5" th:if="${seeker != null}">
+
+      <div class="pt-5"><h2>Update your Seeker profile</h2></div>
       <form th:action="@{/profile}" th:object="${seeker}" method="post">
 
         <input type="hidden" name="_method" th:value="put"/>
@@ -46,15 +49,166 @@
           <label for="email" class="form-label">Email:</label>
           <input class="form-control" type="text" id="email" name="cv.personalData.email" th:value="${seeker.cv.personalData.email}" />
         </div>
+        <div class="mt-5">
+          <label for="skills" class="form-label">Skills:</label>
+          <textarea class="form-control" id="skills" name="cv.skills" th:utext="${seeker.cv.skills}"></textarea>
+        </div>
+
+        <div class="mt-5">
+          <label for="educationFields" class="form-label">Education:</label>
+
+          <div id="educationFields">
+            <div class="education-field" th:if="${seeker.cv.educationList != null}" th:each="education, educationStat : ${seeker.cv.educationList}">
+              <input class="form-control" type="text" th:field="*{cv.educationList[__${educationStat.index}__]?.education}" placeholder="Education Name" />
+              <input class="form-control" type="text" th:field="*{cv.educationList[__${educationStat.index}__]?.startYear}" placeholder="Start Year" />
+              <input class="form-control" type="text" th:field="*{cv.educationList[__${educationStat.index}__]?.endYear}" placeholder="End Year" />
+              <button type="button" th:onclick="'removeEducationField(this, ' + ${educationStat.index} + ')'" >Remove</button>
+            </div>
+
+          </div>
+
+          <!-- Button to add more education fields -->
+          <button type="button" onclick="addEducationField()">Add Education</button>
+        </div>
+
+
+        <div class="mt-5">
+          <label for="experienceFields" class="form-label">Working Experiences:</label>
+
+          <div id="experienceFields">
+            <div class="experience-fields" th:if="${seeker.cv.workingExperienceList != null}" th:each="workingExperience, workingExperienceStat : ${seeker.cv.workingExperienceList}">
+              <input class="form-control" type="text" th:field="*{cv.workingExperienceList[__${workingExperienceStat.index}__]?.workingExperience}" placeholder="Education Name" />
+              <input class="form-control" type="text" th:field="*{cv.workingExperienceList[__${workingExperienceStat.index}__]?.startYear}" placeholder="Start Year" />
+              <input class="form-control" type="text" th:field="*{cv.workingExperienceList[__${workingExperienceStat.index}__]?.endYear}" placeholder="End Year" />
+              <button type="button" th:onclick="'removeExperienceField(this, ' + ${workingExperienceStat.index} + ')'" >Remove</button>
+            </div>
+
+          </div>
+
+          <!-- Button to add more education fields -->
+          <button type="button" onclick="addExperienceField()">Add Working Experience</button>
+        </div>
 
 
         <button type="submit">Save</button>
+
+      </form>
+
+      <!-- Add this link in your profile.html -->
+      <a th:href="@{'/cv'}" target="_blank">Download MY CV in PDF</a>
+      <br><br><br>
+    </div>
+
+    <!-- Logic for Manager profile -->
+    <div class="container mt-5 mb-5" th:if="${manager != null}">
+      <div class="pt-5"><h2>Update your Manager profile</h2></div>
+      <form th:action="@{/profile}" th:object="${manager}" method="post">
+        <input type="hidden" name="_method" th:value="put"/>
+      <div class="mt-5">
+        <label for="company" class="form-label">Company Name:</label>
+        <textarea class="form-control" id="company" name="company" th:utext="${manager.company}"></textarea>
+      </div>
+        <button type="submit">Save</button>
       </form>
     </div>
+
+
   </main>
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
+
+<!--<div th:replace="fragments/footer :: footer"></div>-->
+
+<script th:inline="javascript" th:if="${seeker != null}">
+    var educationCount = [[${#lists.size(seeker.cv.educationList)}]];
+    var workingExperienceCount = [[${#lists.size(seeker.cv.workingExperienceList)}]];
+
+
+function addEducationField() {
+    var educationFields = document.getElementById('educationFields');
+    var newEducationField = document.createElement('div');
+    newEducationField.classList.add('education-field');
+    newEducationField.innerHTML = `
+        <input class="form-control" type="text" name="cv.educationList[${educationCount}].education" placeholder="Education Name" />
+      <input class="form-control" type="text" name="cv.educationList[${educationCount}].startYear" placeholder="Start Year" />
+      <input class="form-control" type="text" name="cv.educationList[${educationCount}].endYear" placeholder="End Year" />
+      <button type="button" onclick="removeEducationField(this, ${educationCount})">Remove</button>
+    `;
+    educationFields.appendChild(newEducationField);
+    educationCount++;
+  }
+
+  function removeEducationField(button, currentIndex) {
+    var educationField = button.parentNode;
+    educationField.parentNode.removeChild(educationField);
+    educationCount--;
+
+    updateEducationIndices(currentIndex);
+
+    function updateEducationIndices(deletedIndex) {
+        var educationFields = document.getElementById('educationFields');
+        var educationDivs = educationFields.getElementsByClassName('education-field');
+
+        for (var i = deletedIndex; i < educationDivs.length; i++) {
+            var inputs = educationDivs[i].getElementsByTagName('input');
+
+            for (var j = 0; j < inputs.length; j++) {
+                // Update th:field indices
+                var fieldName = inputs[j].getAttribute('name');
+                inputs[j].setAttribute('name', fieldName.replace('[' + (i + 1) + ']', '[' + i + ']'));
+            }
+
+            // Update Remove button onclick function
+            var removeButton = educationDivs[i].getElementsByTagName('button')[0];
+            removeButton.setAttribute('onclick', 'removeEducationField(this, ' + i + ')');
+        }
+    }
+  }
+
+
+  function addExperienceField() {
+        var experienceFields = document.getElementById('experienceFields');
+        var newExperienceField = document.createElement('div');
+        newExperienceField.classList.add('experience-field');
+        newExperienceField.innerHTML = `
+            <input class="form-control" type="text" name="cv.workingExperienceList[${workingExperienceCount}].workingExperience" placeholder="Experience Name" />
+            <input class="form-control" type="text" name="cv.workingExperienceList[${workingExperienceCount}].startYear" placeholder="Exp start Year" />
+            <input class="form-control" type="text" name="cv.workingExperienceList[${workingExperienceCount}].endYear" placeholder="Exp end Year" />
+            <button type="button" onclick="removeExperienceField(this, ${workingExperienceCount})">Remove</button>
+        `;
+        experienceFields.appendChild(newExperienceField);
+        workingExperienceCount++;
+    }
+
+    function removeExperienceField(button, currentIndex) {
+        var experienceField = button.parentNode;
+        experienceField.parentNode.removeChild(experienceField);
+        workingExperienceCount--;
+
+        updateExperienceIndices(currentIndex);
+
+        function updateExperienceIndices(deletedIndex) {
+            var experienceFields = document.getElementById('experienceFields');
+            var experienceDivs = experienceFields.getElementsByClassName('experience-field');
+
+            for (var i = deletedIndex; i < experienceDivs.length; i++) {
+                var inputs = experienceDivs[i].getElementsByTagName('input');
+
+                for (var j = 0; j < inputs.length; j++) {
+                    // Update th:field indices
+                    var fieldName = inputs[j].getAttribute('name');
+                    inputs[j].setAttribute('name', fieldName.replace('[' + (i + 1) + ']', '[' + i + ']'));
+                }
+
+                // Update Remove button onclick function
+                var removeButton = experienceDivs[i].getElementsByTagName('button')[0];
+                removeButton.setAttribute('onclick', 'removeExperienceField(this, ' + i + ')');
+            }
+        }
+    }
+
+</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>

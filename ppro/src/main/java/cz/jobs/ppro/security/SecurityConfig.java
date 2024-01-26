@@ -2,6 +2,9 @@ package cz.jobs.ppro.security;
 
 import cz.jobs.ppro.service.UserService;
 import cz.jobs.ppro.service.UserServiceImpl;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +17,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -36,7 +44,8 @@ public class SecurityConfig {
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                                 .requestMatchers("/user/**", "/dashboard/**", "/jobs/**", "/profile/**").hasAnyRole("SEEKER", "MANAGER", "ADMIN")
                                 .requestMatchers("/add_job/**").hasAnyRole("MANAGER", "ADMIN")
-                                .requestMatchers("/my_jobs/**").hasAnyRole("MANAGER")
+                                .requestMatchers("/my_jobs/**", "/download-cv/**").hasAnyRole("MANAGER", "ADMIN")
+                                .requestMatchers("/cv/**").hasAnyRole("SEEKER")
                                 .requestMatchers("/login/**", "/register/**", "/all_jobs/**").permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(formLogin ->
@@ -44,6 +53,12 @@ public class SecurityConfig {
                                 .loginPage("/login")
                                 .permitAll()
                                 .defaultSuccessUrl("/dashboard")
+                                .successHandler(new AuthenticationSuccessHandler() {
+                                    @Override
+                                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                                        response.sendRedirect("/dashboard");
+                                    }
+                                })
                 )
                 .logout(logout -> logout.logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")

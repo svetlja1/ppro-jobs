@@ -34,3 +34,24 @@ body, html {
             padding: 20px;
             background-color: #f8f9fa; /* Bootstrap light color */
         }
+
+        /* CSS style for odd rows */
+        tr.odd-row {
+            background-color: #f2f2f2; /* Light gray */
+            transition: background-color 0.3s; /* Smooth transition on hover */
+        }
+
+        tr.odd-row:hover {
+            background-color: #d8d8d8; /* Slightly darker gray on hover */
+        }
+
+        /* CSS style for even rows */
+        tr.even-row {
+            background-color: #e6e6e6; /* Lighter gray */
+            transition: background-color 0.3s; /* Smooth transition on hover */
+        }
+
+        tr.even-row:hover {
+            background-color: #cccccc; /* Slightly darker gray on hover */
+        }
+

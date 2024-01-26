@@ -33,18 +33,20 @@
             <th>Job Name</th>
             <th>Job Salary</th>
             <th>Job Area</th>
+            <th>Has replies?</th>
             <th>Action</th>
           </tr>
           </thead>
           <tbody>
           <!-- Iterate over the list of jobs -->
-          <tr th:each="job : ${jobs}">
+          <tr th:each="job, iterStat : ${jobs}" th:class="${iterStat.odd ? 'odd-row' : 'even-row'}" th:attr="onclick=|navigateToJobDetails('${job.id}')|" style="cursor: pointer;">
             <td th:text="${job.jobCategory}"></td>
             <td th:text="${job.jobCompany}"></td>
             <td th:text="${job.jobDescription}"></td>
             <td th:text="${job.jobName}"></td>
             <td th:text="${job.jobSalary}"></td>
             <td th:text="${job.jobArea}"></td>
+            <td th:text="${#lists.size(job.replyList)}"></td>
             <td>
               <a href="#" th:attr="data-jobid=${job.id}" onclick="deleteJob(this.getAttribute('data-jobid')); return false;">Delete</a>
             </td>
@@ -57,6 +59,12 @@
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
+
+<script th:inline="javascript">
+    function navigateToJobDetails(jobId) {
+        window.location.href = '/jobs/' + jobId;
+    }
+</script>
 
 <script th:inline="javascript">
     function deleteJob(jobId) {
